@@ -12,7 +12,8 @@ pages = get_pages()
 
 count = 0
 
-print('Starting scrape of ' + str(len(pages)) + ' pages on Kickstarter...')
+print('Starting scrape of ' + str(len(pages)) + ' projects...')
+print('------------------------------------------\n')
 
 for page in pages:
     count += 1
@@ -24,22 +25,35 @@ for page in pages:
     # Basic Project Info
     ####################
     
-    print('------------------------------------------')
+    print('---------- Project # ' + str(count) + ' ----------')
     print('Project Name: ' + get_project_title(soup))
-    print("Project #: " + str(count))
+    print('Project Description Word Count: ' + str(len(str(get_project_description(soup)).split(' '))))
+    print('Project Risks Word Count: ' + str(len(str(get_project_risks(soup)).split(' '))))
+    print('Project risk text: ' + str(get_project_risks(soup)))
 
     ####################
     # Rewards Data
     ####################
-
+    
+    #Retrieve objects associated with rewards
     all_rewards = get_rewards(soup)
+    
+    #Gather lists from retrieved rewards
     all_rewards_list = get_rewards_list(all_rewards)
     available_rewards_list = get_rewards_available_list(all_rewards)
+    unavailable_rewards_list = get_rewards_unavailable_list(all_rewards)
+    
+    #Gather counts for final output
     rewards_count_all = get_rewards_count(all_rewards_list)
-    rewards_count_available = get_rewards_available_count(available_rewards_list)
+    rewards_count_available = get_rewards_count(available_rewards_list)
+    rewards_count_unavailable = get_rewards_count(unavailable_rewards_list)
 
+    #Output counts
     print('All rewards: ' + str(rewards_count_all))
     print('Rewards Available: ' + str(rewards_count_available))
+    print('Rewards Unavailable: ' + str(rewards_count_unavailable))
 
+    print('\n')
 
+print('\n------------------------------------------')
 print('\nScrape Complete!')

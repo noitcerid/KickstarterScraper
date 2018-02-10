@@ -18,10 +18,11 @@ def get_rewards_available_list(rewards_body):
     rewards_available_list = list(rewards_body.find_all('li', class_='hover-group js-reward-available pledge--available pledge-selectable-sidebar'))
     return rewards_available_list
 
+def get_rewards_unavailable_list(rewards_body):
+    '''Returns rewards available -> list object'''
+    rewards_unavailable_list = list(rewards_body.find_all('li', class_='hover-group pledge--all-gone pledge-selectable-sidebar'))
+    return rewards_unavailable_list
+
 def get_rewards_count(rewards):
     '''Returns how many rewards were found -> int'''
     return len(rewards)
-
-def get_rewards_available_count(rewards_available):
-    '''Returns how many rewards are still available -> int'''
-    return len(rewards_available)
