@@ -11,11 +11,8 @@ def get_project(soup):
 
 def get_project_title(soup):
     '''Returns project title -> string'''
-    #Default project title format, but apparently there is a multitude of options, so will need more verbose work here
-    #project_name = soup.body.find_all('h2', class_='type-24 type-28-sm type-38-md navy-700 medium mb3', string = True, limit = 1)
     project_name = ''
     project_name = soup.title.string.replace(' —Kickstarter', '')
-    #return project_name[0].string
     return project_name
 
 def get_project_description(soup):
@@ -49,3 +46,21 @@ def get_project_comments_count(soup):
     '''Returns project comments count -> int'''
     comments = soup.body.find('a', class_='js-load-project-comments js-load-project-content mx3 project-nav__link--comments tabbed-nav__link type-14').find('span').find('data').string
     return int(comments)
+
+def is_community_focused(description):
+    '''parse description to look for specified keywords'''
+    d = description
+    result = False
+
+    if 'community' in d or 'neighborhood' in d:
+        if 'accessible to' in d:
+            result = True
+        if 'build' in d:
+            result = True
+        if 'benefit' in d:
+            result = True
+        if 'come together' in d:
+            result = True
+        if 'local' in d:
+            result = True
+    return result
