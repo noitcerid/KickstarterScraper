@@ -26,3 +26,21 @@ def get_rewards_unavailable_list(rewards_body):
 def get_rewards_count(rewards):
     '''Returns how many rewards were found -> int'''
     return len(rewards)
+
+def get_rewards_tiers(rewards):
+    '''Returns a unique list of rewards for determining "tiers"'''
+    output = []
+    for x in rewards:
+        if x not in output:
+            output.append(x)
+    return output
+
+def get_rewards_limited_list(rewards_body):
+    #limited_list = list(rewards_body.find_all('div', class_='pledge__backer-stats'))
+    #final_list = []
+    #for item in limited_list:
+    #    if item.children != None and len(item.contents) > 1:
+    #        final_list.append(item.contents)
+    #return limited_list
+    limited = list(rewards_body.find_all('span', class_='pledge__limit'))
+    return limited
