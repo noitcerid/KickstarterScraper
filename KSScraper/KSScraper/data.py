@@ -12,11 +12,14 @@ def get_pages(limit = 1):
     #pages.append(requests.get('https://www.kickstarter.com/projects/1770514081/edelweiss-pastry-shop-european-pastry-in-idaho-spr'))
     #pages.append(requests.get('https://www.kickstarter.com/projects/2091373011/emmas-tea-spot'))
     #pages.append(requests.get('https://www.kickstarter.com/projects/1839653352/terra-mare-sustainable-organic-taste-at-the-wine-c'))
-    project_list = import_csv()
-    count = 0
-    while count < limit:
-        pages.append(requests.get(project_list[count][0]))
-        count += 1
+    pages.append(requests.get('https://www.kickstarter.com/projects/126095152/choose-a-restaurant-and-change-the-world'))
+    #pages.append(requests.get('http://www.kickstarter.com/projects/674157965/an-honest-attempt-to-bring-a-delicious-authentic-b'))
+    
+    #project_list = import_csv()
+    #count = 0
+    #while count < limit:
+    #    pages.append(requests.get(project_list[count][0]))
+    #    count += 1
     return pages
 
 def get_soups(pages):

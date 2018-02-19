@@ -22,6 +22,9 @@ def get_project_description(soup):
     for item in description:
         if item.string != None:
             text += item.string
+        elif item.string == None: #Must contain additional nested tags?
+            for i in item.strings:
+                text += i
     return text
 
 def get_project_risks(soup):

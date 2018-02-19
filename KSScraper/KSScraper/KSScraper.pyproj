@@ -20,6 +20,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="backers.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="basics.py">
       <SubType>Code</SubType>
     </Compile>

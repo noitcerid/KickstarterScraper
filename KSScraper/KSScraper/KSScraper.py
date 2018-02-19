@@ -6,6 +6,7 @@ from rewards import *
 from basics import *
 from media import *
 from data import *
+from backers import *
 
 #Create object to store pages to be retrieved
 print('Retrieving pages... please be patient!')
@@ -31,7 +32,8 @@ for page in pages:
     ####################
     
     project_title = get_project_title(soup)
-    project_description_word_count = str(len(str(get_project_description(soup)).split(' ')))
+    project_description = str(get_project_description(soup))
+    project_description_word_count = str(len(project_description.split(' ')))
     project_risks_word_count = str(len(str(get_project_risks(soup)).split(' ')))
     project_community_focused = str(is_community_focused(get_project_description(soup)))
     print('---------- Project # ' + str(count) + ' ----------')
@@ -40,6 +42,7 @@ for page in pages:
     print('Project Risks Word Count: ' + project_risks_word_count)
     print('Community Focused?: ' + project_community_focused)
     #print('Project risk text: ' + str(get_project_risks(soup)))
+    print('Project Backer Cities: ' + str(get_backer_cities(soup)))
     
     ####################
     # Rewards Data
