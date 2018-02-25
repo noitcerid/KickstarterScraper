@@ -10,11 +10,11 @@ from backers import *
 
 #Create object to store pages to be retrieved
 print('Retrieving pages... please be patient!')
-pages = get_pages(2)
+pages = get_pages()
 
 #Create list to export to csv
 scrape_results = []
-scrape_results.append(['url', 'description_word_count', 'risks_word_count', 'image_count', 'video_count', 'community_focused', 'updates_count', 'comments_count', 'rewards_count_tiers', 'rewards_count_all', 'rewards_count_limited'])
+scrape_results.append(['url', 'description_word_count', 'risks_word_count', 'image_count', 'video_count', 'community_focused', 'updates_count', 'comments_count', 'rewards_count_tiers', 'rewards_count_all', 'rewards_count_limited', 'top_backer_city'])
 
 count = 0
 
@@ -42,7 +42,8 @@ for page in pages:
     print('Project Risks Word Count: ' + project_risks_word_count)
     print('Community Focused?: ' + project_community_focused)
     #print('Project risk text: ' + str(get_project_risks(soup)))
-    print('Project Backer Cities: ' + str(get_backer_cities(soup)))
+    #print('Project Backer Cities: ' + str(get_backer_cities(page)))
+    print('Project Top Backer City: ' + str(get_top_backer_city(get_backer_cities(page))))
     
     ####################
     # Rewards Data
@@ -86,8 +87,11 @@ for page in pages:
     print('Project Images: ' + str(image_count))
     print('Project Videos: ' + str(video_count))
 
+    #Backer Info
+    top_backer_city = str(get_top_backer_city(get_backer_cities(page)))
+
     #gather results into row and append to output
-    scrape_results.append([str(page.url), project_description_word_count, project_risks_word_count, image_count, video_count, project_community_focused, updates_count, comments_count, rewards_count_tiers, rewards_count_all, rewards_count_limited])
+    scrape_results.append([str(page.url), project_description_word_count, project_risks_word_count, image_count, video_count, project_community_focused, updates_count, comments_count, rewards_count_tiers, rewards_count_all, rewards_count_limited, top_backer_city])
 
     #print(str(scrape_results))
 
