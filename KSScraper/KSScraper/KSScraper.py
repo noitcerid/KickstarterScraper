@@ -6,9 +6,15 @@ from rewards import *
 from basics import *
 from media import *
 from data import *
+from backers import *
 
 #Create object to store pages to be retrieved
-pages = get_pages()
+print('Retrieving pages... please be patient!')
+pages = get_pages(2)
+
+#Create list to export to csv
+scrape_results = []
+scrape_results.append(['url', 'description_word_count', 'risks_word_count', 'image_count', 'video_count', 'community_focused', 'updates_count', 'comments_count', 'rewards_count_tiers', 'rewards_count_all', 'rewards_count_limited'])
 
 count = 0
 
@@ -25,11 +31,18 @@ for page in pages:
     # Basic Project Info
     ####################
     
+    project_title = get_project_title(soup)
+    project_description = str(get_project_description(soup))
+    project_description_word_count = str(len(project_description.split(' ')))
+    project_risks_word_count = str(len(str(get_project_risks(soup)).split(' ')))
+    project_community_focused = str(is_community_focused(get_project_description(soup)))
     print('---------- Project # ' + str(count) + ' ----------')
-    print('Project Name: ' + get_project_title(soup))
-    print('Project Description Word Count: ' + str(len(str(get_project_description(soup)).split(' '))))
-    print('Project Risks Word Count: ' + str(len(str(get_project_risks(soup)).split(' '))))
+    print('Project Name: ' + project_title)
+    print('Project Description Word Count: ' + project_description_word_count)
+    print('Project Risks Word Count: ' + project_risks_word_count)
+    print('Community Focused?: ' + project_community_focused)
     #print('Project risk text: ' + str(get_project_risks(soup)))
+    print('Project Backer Cities: ' + str(get_backer_cities(soup)))
     
     ####################
     # Rewards Data
@@ -52,7 +65,7 @@ for page in pages:
     rewards_count_limited = get_rewards_count(limited_rewards_list)
     rewards_count_tiers = get_rewards_count(tiers_rewards_list)
 
-    #Output counts
+    #Output rewards counts
     print('All rewards: ' + str(rewards_count_all))
     print('Rewards Available: ' + str(rewards_count_available))
     print('Rewards Unavailable: ' + str(rewards_count_unavailable))
@@ -65,7 +78,25 @@ for page in pages:
     print('Project Updates Count: ' + str(updates_count))
     print('Project Comments Count: ' + str(comments_count))
 
-    print('\n')
+    #Media Counts
+    images = get_image_list(soup)
+    image_count = get_image_count(images)
+    videos = get_video_list(soup)
+    video_count = get_video_count(videos)
+    print('Project Images: ' + str(image_count))
+    print('Project Videos: ' + str(video_count))
+
+    #gather results into row and append to output
+    scrape_results.append([str(page.url), project_description_word_count, project_risks_word_count, image_count, video_count, project_community_focused, updates_count, comments_count, rewards_count_tiers, rewards_count_all, rewards_count_limited])
+
+    #print(str(scrape_results))
 
 print('\n------------------------------------------')
 print('\nScrape Complete!')
+
+#Export to csv
+print('\nExporting results to CSV')
+with open('output.csv', 'w', newline='') as csvfile:
+    writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    for row in scrape_results:
+        writer.writerow(row)

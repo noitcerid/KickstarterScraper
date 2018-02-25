@@ -28,7 +28,7 @@ def get_rewards_count(rewards):
     return len(rewards)
 
 def get_rewards_tiers(rewards):
-    '''Returns a unique list of rewards for determining "tiers"'''
+    '''Returns a unique list of rewards for determining "tiers" -> list'''
     output = []
     for x in rewards:
         if x not in output:
@@ -36,11 +36,19 @@ def get_rewards_tiers(rewards):
     return output
 
 def get_rewards_limited_list(rewards_body):
-    #limited_list = list(rewards_body.find_all('div', class_='pledge__backer-stats'))
-    #final_list = []
-    #for item in limited_list:
-    #    if item.children != None and len(item.contents) > 1:
-    #        final_list.append(item.contents)
-    #return limited_list
-    limited = list(rewards_body.find_all('span', class_='pledge__limit'))
+    '''Returns a list of records considered to have limited numbers of backers available -> list'''
+    limited = []
+    #gather limited gone only
+    limited_gone = list(rewards_body.find_all('span', class_='pledge__limit pledge__limit--all-gone mr2'))
+    
+    #gather all (filtering in for loop to only those that contain "Limited" text
+    limited_available = list(rewards_body.find_all('span', class_='pledge__limit'))
+
+    #we know we can add the entries that are gone since they're filtered properly already
+    limited = limited_gone
+
+    #conditionally check for text and add if present
+    for p in limited_available:
+        if p.string == 'Limited':
+            limited.append(p)
     return limited
