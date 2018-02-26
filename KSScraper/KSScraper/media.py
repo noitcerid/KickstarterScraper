@@ -26,7 +26,7 @@ def get_image_count(image_list):
 
 def get_video_list(soup):
     '''Returns list of videos found -> list'''
-    videos = list(soup.body.find_all('video', class_='has_webm landscape'))
+    videos = list(soup.body.find_all('video', class_='landscape'))
     return videos
 
 def get_video_count(video_list):

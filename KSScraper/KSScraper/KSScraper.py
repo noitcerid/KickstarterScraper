@@ -10,11 +10,11 @@ from backers import *
 
 #Create object to store pages to be retrieved
 print('Retrieving pages... please be patient!')
-pages = get_pages()
+pages = get_pages(10)
 
 #Create list to export to csv
 scrape_results = []
-scrape_results.append(['url', 'description_word_count', 'risks_word_count', 'image_count', 'video_count', 'community_focused', 'updates_count', 'comments_count', 'rewards_count_tiers', 'rewards_count_all', 'rewards_count_limited', 'top_backer_city'])
+#scrape_results.append(['url', 'description_word_count', 'risks_word_count', 'image_count', 'video_count', 'community_focused', 'updates_count', 'comments_count', 'rewards_count_tiers', 'rewards_count_all', 'rewards_count_limited', 'top_backer_city', 'top_backer_city_backers_count'])
 
 count = 0
 
@@ -42,8 +42,6 @@ for page in pages:
     print('Project Risks Word Count: ' + project_risks_word_count)
     print('Community Focused?: ' + project_community_focused)
     #print('Project risk text: ' + str(get_project_risks(soup)))
-    #print('Project Backer Cities: ' + str(get_backer_cities(page)))
-    print('Project Top Backer City: ' + str(get_top_backer_city(get_backer_cities(page))))
     
     ####################
     # Rewards Data
@@ -89,18 +87,20 @@ for page in pages:
 
     #Backer Info
     top_backer_city = str(get_top_backer_city(get_backer_cities(page)))
+    top_backer_city_backers_count = str(get_top_backer_city_backers_count(get_backer_cities(page)))
+    #print('Project Backer Cities: ' + str(get_backer_cities(page)))
+    print('Project Top Backer City: ' + top_backer_city)
+    print('Project Top City Backers Count: ' + str(top_backer_city_backers_count))
 
     #gather results into row and append to output
-    scrape_results.append([str(page.url), project_description_word_count, project_risks_word_count, image_count, video_count, project_community_focused, updates_count, comments_count, rewards_count_tiers, rewards_count_all, rewards_count_limited, top_backer_city])
-
-    #print(str(scrape_results))
+    scrape_results.append([str(page.url), project_description_word_count, project_risks_word_count, image_count, video_count, project_community_focused, updates_count, comments_count, rewards_count_tiers, rewards_count_all, rewards_count_limited, top_backer_city, top_backer_city_backers_count])
 
 print('\n------------------------------------------')
 print('\nScrape Complete!')
 
 #Export to csv
 print('\nExporting results to CSV')
-with open('output.csv', 'w', newline='') as csvfile:
+with open('output.csv', 'a', newline='') as csvfile:
     writer = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     for row in scrape_results:
         writer.writerow(row)
